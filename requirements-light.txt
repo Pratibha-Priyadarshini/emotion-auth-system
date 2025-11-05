@@ -7,7 +7,7 @@ uvicorn[standard]==0.30.1
 python-multipart==0.0.9
 pydantic==2.7.1
 
-# ML and Data Processing (no TensorFlow)
+# ML and Data Processing (no TensorFlow - uses heuristic fallback)
 numpy==1.24.3
 opencv-python-headless==4.8.1.78
 scikit-learn==1.3.2
@@ -20,3 +20,7 @@ sqlalchemy==2.0.23
 
 # Data processing
 pandas==2.0.3
+
+# Visualization (optional)
+matplotlib==3.8.0
+seaborn==0.13.0
