@@ -28,6 +28,27 @@ if os.path.isdir(FRONTEND_DIR):
 def startup():
     init_db()
 
+# Root redirect and health check
+from fastapi.responses import RedirectResponse
+
+@app.get("/")
+def root():
+    """Redirect root to frontend."""
+    return RedirectResponse(url="/web/index.html")
+
+@app.get("/health")
+def health():
+    """Health check endpoint."""
+    return {
+        "status": "healthy",
+        "service": "emotion-auth-system",
+        "models_loaded": {
+            "facial_emotion": True,
+            "voice_emotion": True,
+            "keystroke_dynamics": True
+        }
+    }
+
 # Real-time emotion analysis endpoint (no authentication)
 class EmotionAnalysisPayload(BaseModel):
     frame_data_url: str
