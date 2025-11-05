@@ -59,9 +59,4 @@ backend/storage/alerts/*.json
 # backend/storage/trained_models/*.pkl
 
 # Datasets (too large)
-backend/storage/datasets/fer2013/
-backend/storage/datasets/RAVDESS/
-backend/storage/datasets/RAVDESS_sample/
-
-# Keep sample keystroke data
-!backend/storage/datasets/CMU_Keystroke_sample/
+backend/storage/datasets/
