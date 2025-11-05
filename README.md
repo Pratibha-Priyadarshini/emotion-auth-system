@@ -93,14 +93,12 @@ python -m uvicorn backend.main:app --reload --port 8000
 
 | Document | Purpose | Time to Read |
 |----------|---------|--------------|
-| [GETTING_STARTED.md](GETTING_STARTED.md) | Quick start guide | 5 min |
-| [COMPLETE_MFA_SOLUTION.md](COMPLETE_MFA_SOLUTION.md) | Complete solution overview | 10 min |
-| [MFA_INTEGRATION_SUMMARY.md](MFA_INTEGRATION_SUMMARY.md) | Integration summary | 5 min |
-| [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) | Project structure | 3 min |
-| [mfa-integration/QUICKSTART.md](mfa-integration/QUICKSTART.md) | 5-minute integration | 5 min |
-| [mfa-integration/INTEGRATION_GUIDE.md](mfa-integration/INTEGRATION_GUIDE.md) | Detailed integration | 20 min |
-| [mfa-integration/REST_API_DOCS.md](mfa-integration/REST_API_DOCS.md) | API reference | 15 min |
-| [mfa-integration/DEPLOYMENT.md](mfa-integration/DEPLOYMENT.md) | Production deployment | 30 min |
+| [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) | Quick project overview & deployment | 5 min |
+| [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md) | Complete technical documentation | 15 min |
+| [AUTHENTICATION_FLOW.md](AUTHENTICATION_FLOW.md) | How authentication works | 10 min |
+| [mfa-integration/QUICKSTART.md](mfa-integration/QUICKSTART.md) | 5-minute integration guide | 5 min |
+| [mfa-integration/INTEGRATION_GUIDE.md](mfa-integration/INTEGRATION_GUIDE.md) | Detailed integration guide | 20 min |
+| [mfa-integration/REST_API_DOCS.md](mfa-integration/REST_API_DOCS.md) | Complete API reference | 15 min |
 
 ---
 
@@ -240,7 +238,7 @@ emotion_auth_system/
 └── docs/                   # Project documentation
 ```
 
-See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) for complete structure.
+See [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) for complete project structure and details.
 
 ---
 
@@ -338,7 +336,7 @@ DATABASE_URL=sqlite:///./storage/app.db
 CORS_ORIGINS=*
 ```
 
-See [DEPLOY_WITH_TENSORFLOW.md](DEPLOY_WITH_TENSORFLOW.md) for complete deployment guide.
+See [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) for deployment details and project overview.
 
 #### Docker Deployment
 
@@ -357,7 +355,7 @@ http://your-domain.com
 python deploy.py --mode production --domain yourdomain.com
 ```
 
-See [mfa-integration/DEPLOYMENT.md](mfa-integration/DEPLOYMENT.md) for more deployment options.
+See [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) for deployment details and troubleshooting.
 
 ---
 

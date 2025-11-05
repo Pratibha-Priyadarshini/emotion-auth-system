@@ -1024,36 +1024,56 @@ MODELS_DIR=./backend/storage/trained_models
 
 ### 10.3 Production Deployment
 
-**Security Enhancements:**
-1. Enable HTTPS/TLS
+**Live Demo:** The system is currently deployed at [https://emotion-auth-system-1.onrender.com](https://emotion-auth-system-1.onrender.com)
+
+**Deployment Platform:** Render.com
+- Python 3.11.9
+- TensorFlow 2.15.1 (CPU optimized)
+- All pre-trained models included
+- SQLite database (upgrade to PostgreSQL for production)
+
+**Deployment Configuration:**
+```bash
+# Build Command
+pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+
+# Start Command
+uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+
+# Environment Variables
+PYTHON_VERSION=3.11.9
+SECRET_KEY=your-secret-key
+DATABASE_URL=sqlite:///./storage/app.db
+CORS_ORIGINS=*
+```
+
+**Security Enhancements for Production:**
+1. Enable HTTPS/TLS (provided by Render)
 2. Hash passphrases (bcrypt/argon2)
 3. Add rate limiting
 4. Implement session management
 5. Use PostgreSQL instead of SQLite
 6. Add authentication for admin endpoints
-7. Enable CORS restrictions
+7. Restrict CORS to specific domains
 8. Add input sanitization
 9. Implement audit logging
-10. Use environment variables for secrets
+10. Use strong SECRET_KEY
 
 **Performance Optimization:**
-1. Use GPU for CNN inference
+1. Upgrade to paid tier (no cold starts)
 2. Implement caching for models
-3. Add request queuing
-4. Use CDN for static files
-5. Enable compression
-6. Optimize image sizes
-7. Implement connection pooling
-8. Add load balancing
+3. Use CDN for static files
+4. Enable compression
+5. Optimize image sizes
+6. Add load balancing
 
 **Monitoring:**
-1. Set up logging (structured logs)
-2. Add metrics collection (Prometheus)
-3. Implement health checks
-4. Monitor alert rates
-5. Track authentication success rates
-6. Monitor model performance
-7. Set up alerting (email/SMS)
+1. Check Render logs regularly
+2. Monitor authentication success rates
+3. Track security violations
+4. Set up alerting for anomalies
+
+For detailed deployment instructions, see [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md).
 
 ### 10.4 Docker Deployment (Optional)
 

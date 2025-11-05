@@ -41,9 +41,8 @@ emotion_auth_system/
 │   └── docs/                   # Integration guides
 │
 ├── README.md                    # Main documentation
-├── DEPLOYMENT.md               # Deployment guide
 ├── requirements.txt            # Production dependencies
-└── runtime.txt                 # Python version (3.11.9)
+└── .env.example               # Environment variables template
 ```
 
 ---
@@ -66,12 +65,9 @@ emotion_auth_system/
 | File | Purpose |
 |------|---------|
 | `README.md` | Main project documentation with live demo links |
-| `DEPLOYMENT.md` | Quick deployment guide for Render.com |
-| `DEPLOY_WITH_TENSORFLOW.md` | Detailed TensorFlow deployment guide |
-| `DEPLOYMENT_SUCCESS.md` | Post-deployment success guide |
-| `RENDER_TROUBLESHOOTING.md` | Common deployment issues & fixes |
+| `PROJECT_SUMMARY.md` | Quick project overview and status |
+| `PROJECT_DOCUMENTATION.md` | Complete technical documentation |
 | `AUTHENTICATION_FLOW.md` | How the authentication system works |
-| `PROJECT_DOCUMENTATION.md` | Complete project documentation |
 | `mfa-integration/` | MFA integration guides & examples |
 
 ---
@@ -140,20 +136,55 @@ emotion_auth_system/
 3. Register a new user
 4. Experience emotion-based authentication
 
-### Deploy Your Own:
+### Deploy Your Own on Render.com:
+
+**Step 1: Push to GitHub**
 ```bash
-# 1. Clone repository
 git clone https://github.com/Pratibha-Priyadarshini/emotion-auth-system.git
-
-# 2. Push to your GitHub
-
-# 3. Deploy on Render.com
-# - Connect GitHub repo
-# - Set environment variables
-# - Deploy!
+cd emotion-auth-system
+git push origin main
 ```
 
-See `DEPLOYMENT.md` for detailed instructions.
+**Step 2: Create Web Service on Render**
+1. Go to [https://render.com](https://render.com)
+2. Click "New +" → "Web Service"
+3. Connect your GitHub repository
+
+**Step 3: Configure**
+```
+Build Command: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+Start Command: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+```
+
+**Step 4: Environment Variables**
+```
+PYTHON_VERSION=3.11.9
+SECRET_KEY=your-secret-key-change-this
+DATABASE_URL=sqlite:///./storage/app.db
+CORS_ORIGINS=*
+```
+
+**Step 5: Deploy**
+Click "Create Web Service" and wait 8-12 minutes.
+
+### Troubleshooting
+
+**Build Fails:**
+- Ensure `PYTHON_VERSION=3.11.9` is set
+- Check Render logs for errors
+- Try "Clear build cache & deploy"
+
+**Import Errors:**
+- Verify start command doesn't use `cd backend`
+- Use: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+
+**Slow Performance:**
+- Free tier has cold starts (30-60 sec)
+- Upgrade to Starter plan ($7/month) for always-on
+
+**Models Not Loading:**
+- Check Render logs
+- Verify models exist in `backend/storage/trained_models/`
 
 ---
 
