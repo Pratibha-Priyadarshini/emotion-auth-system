@@ -20,19 +20,22 @@ Visit: **https://dashboard.render.com**
 Name: emotion-auth-system
 Branch: main
 Runtime: Python 3
-Build Command: pip install -r requirements.txt
+Build Command: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
 Start Command: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
-Instance Type: Free
+Instance Type: Free (or Starter for better TensorFlow performance)
 ```
 
 ### Step 3: Add Environment Variables
 Click **"Advanced"** and add:
 
 ```
+PYTHON_VERSION=3.11.9
 SECRET_KEY=change-this-to-something-secure
 DATABASE_URL=sqlite:///./storage/app.db
 CORS_ORIGINS=*
 ```
+
+**⚠️ CRITICAL:** `PYTHON_VERSION=3.11.9` is required for TensorFlow!
 
 Then click **"Create Web Service"**
 
@@ -58,11 +61,12 @@ Once deployed, visit:
 
 ## 📝 What's Included
 
-✅ Facial emotion detection (heuristic - no TensorFlow needed)
-✅ Voice emotion analysis
-✅ Keystroke dynamics
+✅ Facial emotion detection (TensorFlow CNN + heuristic fallback)
+✅ Voice emotion analysis (Random Forest)
+✅ Keystroke dynamics (Isolation Forest)
 ✅ Multi-factor authentication
 ✅ Admin dashboard
+✅ MFA integration plugins (WordPress, JavaScript)
 ✅ Pre-trained models
 
 ---

@@ -47,24 +47,27 @@ git push -u origin main
 - **Runtime:** `Python 3`
 
 **Build & Deploy:**
-- **Build Command:** `pip install -r requirements.txt`
+- **Build Command:** `pip install --upgrade pip setuptools wheel && pip install -r requirements.txt`
 - **Start Command:** `cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT`
 
 **Instance Type:**
-- Select **Free** tier
+- Select **Free** tier (or Starter for better performance with TensorFlow)
 
 **Python Version:**
-- Render should auto-detect from `runtime.txt` (Python 3.11.9)
-- If issues occur, manually select Python 3.11 in settings
+- **IMPORTANT:** Add environment variable `PYTHON_VERSION=3.11.9`
+- This ensures compatibility with TensorFlow and other ML packages
 
 ### 2.3 Environment Variables
 Click **"Advanced"** and add these environment variables:
 
 ```
+PYTHON_VERSION=3.11.9
 SECRET_KEY=your-secret-key-here-change-this
 DATABASE_URL=sqlite:///./storage/app.db
 CORS_ORIGINS=*
 ```
+
+**Note:** `PYTHON_VERSION=3.11.9` is critical for TensorFlow compatibility!
 
 ### 2.4 Deploy
 1. Click **"Create Web Service"**
