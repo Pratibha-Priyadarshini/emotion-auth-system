@@ -53,9 +53,9 @@ git push -u origin main
 **Instance Type:**
 - Select **Free** tier
 
-**⚠️ If build fails with TensorFlow errors:**
-- Change Build Command to: `pip install -r requirements-light.txt`
-- This uses a lighter version without TensorFlow (facial emotion will use fallback)
+**Python Version:**
+- Render should auto-detect from `runtime.txt` (Python 3.11.9)
+- If issues occur, manually select Python 3.11 in settings
 
 ### 2.3 Environment Variables
 Click **"Advanced"** and add these environment variables:
