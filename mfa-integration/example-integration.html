@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion MFA Integration Example</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .mfa-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .integration-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .integration-info h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .integration-info code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .dashboard {
+            display: none;
+        }
+        
+        .dashboard.active {
+            display: block;
+        }
+        
+        .welcome {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .welcome h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .welcome p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div id="loginForm">
+            <h1>Login <span class="mfa-badge">🔐 MFA Protected</span></h1>
+            <p class="subtitle">This demo shows emotion-aware MFA integration</p>
+            
+            <form id="login">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" value="demo_user" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" value="demo123" required>
+                </div>
+                
+                <button type="submit" class="btn" id="loginBtn">Login with MFA</button>
+            </form>
+            
+            <div id="status" class="status"></div>
+            
+            <div class="integration-info">
+                <h3>📦 Integration Steps:</h3>
+                <ol style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                    <li>Include <code>emotion-mfa-plugin.js</code></li>
+                    <li>Initialize: <code>new EmotionMFA({apiUrl: '...'})</code></li>
+                    <li>Call <code>mfa.verify(userId)</code> after login</li>
+                    <li>Grant access on success</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Dashboard (shown after successful login) -->
+        <div id="dashboard" class="dashboard">
+            <div class="welcome">
+                <h2>✅ Welcome!</h2>
+                <p>You have successfully logged in with emotion-aware MFA.</p>
+                <p><strong>User:</strong> <span id="loggedInUser"></span></p>
+                <p><strong>MFA Status:</strong> <span style="color: #28a745;">Verified</span></p>
+                <button class="btn logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Include the Emotion MFA Plugin -->
+    <script src="emotion-mfa-plugin.js"></script>
+    
+    <script>
+        // Initialize Emotion MFA
+        const mfa = new EmotionMFA({
+            apiUrl: 'http://localhost:8000',
+            apiKey: '',
+            theme: 'light',
+            onProgress: (message, percent) => {
+                console.log(`MFA Progress: ${message} (${percent}%)`);
+            }
+        });
+        
+        // Handle login form submission
+        document.getElementById('login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const status = document.getElementById('status');
+            
+            // Disable button
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Authenticating...';
+            
+            try {
+                // Step 1: Primary authentication (username/password)
+                showStatus('Verifying credentials...', 'info');
+                
+                // Simulate API call to your backend
+                const primaryAuth = await authenticateUser(username, password);
+                
+                if (!primaryAuth.success) {
+                    throw new Error('Invalid username or password');
+                }
+                
+                // Step 2: Emotion-aware MFA
+                showStatus('Starting MFA verification...', 'info');
+                
+                const mfaResult = await mfa.verify(username, {
+                    requireFace: true,
+                    requireVoice: true,
+                    requireKeystroke: true,
+                    passphrase: 'secure login'
+                });
+                
+                if (mfaResult.success) {
+                    showStatus(`✅ Login successful! Confidence: ${(mfaResult.confidence * 100).toFixed(1)}%`, 'success');
+                    
+                    // Store session
+                    sessionStorage.setItem('user', username);
+                    sessionStorage.setItem('mfa_verified', 'true');
+                    
+                    // Show dashboard
+                    setTimeout(() => {
+                        document.getElementById('loginForm').style.display = 'none';
+                        document.getElementById('dashboard').classList.add('active');
+                        document.getElementById('loggedInUser').textContent = username;
+                    }, 1500);
+                } else {
+                    showStatus(`❌ MFA verification failed: ${mfaResult.message}`, 'error');
+                }
+                
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login with MFA';
+            }
+        });
+        
+        // Simulate primary authentication
+        async function authenticateUser(username, password) {
+            // In a real application, this would call your backend API
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    // Simulate successful authentication
+                    resolve({ success: true, userId: username });
+                }, 500);
+            });
+        }
+        
+        // Show status message
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+        }
+        
+        // Logout function
+        function logout() {
+            sessionStorage.clear();
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('status').style.display = 'none';
+            document.getElementById('username').value = 'demo_user';
+            document.getElementById('password').value = 'demo123';
+        }
+        
+        // Check if already logged in
+        if (sessionStorage.getItem('mfa_verified') === 'true') {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+            document.getElementById('loggedInUser').textContent = sessionStorage.getItem('user');
+        }
+    </script>
+</body>
+</html>

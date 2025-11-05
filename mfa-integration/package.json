@@ -1,0 +1,48 @@
+{
+  "name": "emotion-auth-mfa",
+  "version": "1.0.0",
+  "description": "Emotion-aware multi-factor authentication for any website",
+  "main": "emotion-mfa-plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build step required\"",
+    "demo": "python -m http.server 8080"
+  },
+  "keywords": [
+    "authentication",
+    "mfa",
+    "2fa",
+    "biometrics",
+    "emotion",
+    "facial-recognition",
+    "voice-analysis",
+    "keystroke-dynamics",
+    "security",
+    "ai",
+    "machine-learning"
+  ],
+  "author": "Emotion Auth Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/emotion-auth-mfa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/emotion-auth-mfa/issues"
+  },
+  "homepage": "https://github.com/your-org/emotion-auth-mfa#readme",
+  "files": [
+    "emotion-mfa-plugin.js",
+    "mfa-backend-adapter.py",
+    "example-integration.html",
+    "INTEGRATION_GUIDE.md",
+    "REST_API_DOCS.md",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {}
+}

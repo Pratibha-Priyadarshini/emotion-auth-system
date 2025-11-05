@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion-Aware Authentication System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4d03f;
+            --gold-dark: #b8941e;
+            --black: #000000;
+            --black-light: #1a1a1a;
+            --black-card: #0d0d0d;
+            --black-hover: #262626;
+            --text-gold: #f4d03f;
+            --text-white: #ffffff;
+            --text-gray: #a0a0a0;
+            --border-gold: #d4af37;
+            --success: #d4af37;
+            --warning: #f4d03f;
+            --danger: #ff6b6b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            background-attachment: fixed;
+            color: var(--text-white);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold)) 1;
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-left p {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: var(--gold-light);
+        }
+
+        .tab.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, var(--black-card), var(--black-light));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gold);
+        }
+
+        .card-icon {
+            font-size: 20px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gold);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--black);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: var(--text-white);
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--gold);
+        }
+
+        .checkbox-wrapper label {
+            font-size: 14px;
+            color: var(--text-gray);
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+            color: var(--black);
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Video Section */
+        .video-wrapper {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            margin-bottom: 16px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+            position: relative;
+        }
+
+        .video-wrapper canvas {
+            display: none;
+        }
+
+        .video-wrapper #overlayCanvas {
+            display: block !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .stat-box {
+            background: var(--black);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.idle {
+            background: rgba(160, 160, 160, 0.1);
+            color: var(--text-gray);
+            border: 1px solid rgba(160, 160, 160, 0.3);
+        }
+
+        .status-badge.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .status-badge.permit {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .status-badge.delay {
+            background: rgba(244, 208, 63, 0.1);
+            color: var(--gold-light);
+            border: 1px solid var(--gold-light);
+        }
+
+        .status-badge.deny {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* Alert Box */
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .alert-success {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .alert-warning {
+            background: rgba(244, 208, 63, 0.1);
+            border: 1px solid var(--gold-light);
+            color: var(--gold-light);
+        }
+
+        .alert-danger {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* Emotion Display */
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .emotion-item {
+            background: var(--black);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .emotion-label {
+            font-size: 11px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .emotion-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        /* Enrollment & Auth Grid */
+        .enroll-auth-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .enroll-auth-box {
+            padding: 20px;
+            background: var(--black);
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.3s;
+        }
+
+        .enroll-auth-box:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .enroll-auth-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .emotion-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-gray);
+        }
+
+        .spinner {
+            border: 3px solid rgba(212, 175, 55, 0.2);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>🔐 Emotion-Aware Authentication</h1>
+                <p>Secure multi-factor biometric authentication system</p>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-secondary" onclick="window.location.href='/web/admin.html'">⚙️ Admin Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Main Section -->
+        <div id="main-section">
+                <div class="header">
+                    <h1>Authentication</h1>
+                    <p>Secure multi-factor biometric authentication</p>
+                </div>
+
+                <div class="card-grid">
+                    <!-- User Identity Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="card-icon">👤</span>
+                                User Identity
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">User ID</label>
+                            <input type="text" id="userId" class="form-input" placeholder="Enter user ID">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Passphrase</label>
+                            <input type="password" id="passphrase" class="form-input" placeholder="Enter passphrase">
+                        </div>
+                        
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="consent">
+                            <label for="consent">I consent to biometric data capture</label>
+                        </div>
+                    </div>
+
+                    <!-- Video Capture Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="card-icon">📹</span>
+                                Live Camera Feed
+                            </div>
+                            <span class="status-badge" id="cameraStatus">Idle</span>
+                        </div>
+                        
+                        <div class="video-wrapper">
+                            <video id="video" autoplay muted playsinline></video>
+                            <canvas id="canvas"></canvas>
+                            <canvas id="overlayCanvas"></canvas>
+                        </div>
+                        
+                        <div style="padding: 12px; background: rgba(212, 175, 55, 0.05); border-radius: 8px; margin-top: 12px;">
+                            <p style="color: var(--text-gray); font-size: 12px; margin: 0;">
+                                📸 Auto-capturing every 3 seconds | 👁️ Lip & eye curvature lines visible
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Biometric Stats Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="card-icon">📈</span>
+                                Biometric Data
+                            </div>
+                            <span class="status-badge" id="micStatus">Idle</span>
+                        </div>
+                        
+                        <div class="stats-row">
+                            <div class="stat-box">
+                                <div class="stat-label">RMS</div>
+                                <div class="stat-value" id="rms">0.00</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">ZCR</div>
+                                <div class="stat-value" id="zcr">0.00</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Pitch</div>
+                                <div class="stat-value" id="pitch">0</div>
+                            </div>
+                        </div>
+
+                        <div class="emotion-grid">
+                            <div class="emotion-item">
+                                <div class="emotion-label">Facial Emotion</div>
+                                <div class="emotion-value" id="facialEmotion">--</div>
+                            </div>
+                            <div class="emotion-item">
+                                <div class="emotion-label">Voice Emotion</div>
+                                <div class="emotion-value" id="voiceEmotion">--</div>
+                            </div>
+                            <div class="emotion-item">
+                                <div class="emotion-label">Facial Stress</div>
+                                <div class="emotion-value" id="facialStress">--</div>
+                            </div>
+                            <div class="emotion-item">
+                                <div class="emotion-label">Voice Stress</div>
+                                <div class="emotion-value" id="voiceStress">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enrollment & Authentication Card -->
+                <div class="card" style="grid-column: 1 / -1;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="card-icon">⌨️</span>
+                            Keystroke Authentication
+                        </div>
+                        <span class="status-badge" id="enrollCount">0 samples enrolled</span>
+                    </div>
+                    
+                    <div class="enroll-auth-grid">
+                        <!-- Enrollment Side -->
+                        <div class="enroll-auth-box">
+                            <h3 style="color: var(--gold); font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <span>📝</span> Step 1: Enroll (First Time)
+                            </h3>
+                            <p style="color: var(--text-gray); font-size: 13px; margin-bottom: 16px;">
+                                Type your passphrase 3-5 times to register your typing pattern
+                            </p>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Type Passphrase (must match above)</label>
+                                <input type="password" id="enrollInput" class="form-input" placeholder="Type the SAME passphrase from above...">
+                            </div>
+                            
+                            <button class="btn btn-primary btn-full" id="enrollBtn">
+                                ✓ Submit Sample
+                            </button>
+                            
+                            <div id="enrollStatus" class="alert alert-success hidden" style="margin-top: 12px;">
+                                Status: Ready
+                            </div>
+                        </div>
+                        
+                        <!-- Authentication Side -->
+                        <div class="enroll-auth-box">
+                            <h3 style="color: var(--gold); font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <span>🔓</span> Step 2: Authenticate
+                            </h3>
+                            <p style="color: var(--text-gray); font-size: 13px; margin-bottom: 16px;">
+                                Type your passphrase to authenticate with biometric verification
+                            </p>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Type Passphrase (must match above)</label>
+                                <input type="password" id="authInput" class="form-input" placeholder="Type the SAME passphrase from above...">
+                            </div>
+                            
+                            <button class="btn btn-primary btn-full" id="authBtn">
+                                🔓 Authenticate Now
+                            </button>
+                            
+                            <div id="authStatus" class="alert alert-success hidden" style="margin-top: 12px;">
+                                Status: Ready
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 16px; background: rgba(212, 175, 55, 0.05); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.2);">
+                        <p style="color: var(--text-gray); font-size: 13px; margin: 0;">
+                            💡 <strong>Important:</strong> 
+                            <br>1. Enter User ID and Passphrase in the <strong>User Identity</strong> section above
+                            <br>2. Type the <strong>SAME passphrase</strong> in enrollment (left) 3-5 times
+                            <br>3. Type the <strong>SAME passphrase</strong> in authentication (right) to login
+                            <br>4. All three must match exactly for security
+                        </p>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <script>
+        const API = location.origin.replace(/\/+$/, '');
+        let voiceFeatures = {rms:0, zcr:0, pitch_hz:0};
+        let enrollSamples = 0;
+
+        // Update enrollment count display
+        function updateEnrollCount(count) {
+            const badge = document.getElementById('enrollCount');
+            if (count === 0) {
+                badge.textContent = 'Not enrolled';
+                badge.className = 'status-badge idle';
+            } else if (count < 3) {
+                badge.textContent = `${count} sample${count > 1 ? 's' : ''} (need ${3 - count} more)`;
+                badge.className = 'status-badge delay';
+            } else {
+                badge.textContent = `${count} samples enrolled ✓`;
+                badge.className = 'status-badge active';
+            }
+        }
+
+        // Initialize Camera
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
+                document.getElementById('video').srcObject = stream;
+                document.getElementById('cameraStatus').textContent = 'Active';
+                document.getElementById('cameraStatus').className = 'status-badge active';
+                setupAudio(stream);
+                
+                // Start auto-capture for real-time emotion detection
+                startAutoCapture();
+            } catch (err) {
+                console.error('Camera error:', err);
+                showAlert('authStatus', 'Error: Camera access denied', 'danger');
+            }
+        }
+
+        // Auto-capture frames every 3 seconds for real-time emotion analysis (reduced frequency for smoother performance)
+        let autoCaptureInterval = null;
+        let lastCapturedFrame = null;
+        let isProcessing = false;
+
+        function startAutoCapture() {
+            // Clear any existing interval
+            if (autoCaptureInterval) {
+                clearInterval(autoCaptureInterval);
+            }
+
+            // Capture immediately
+            captureFrame();
+
+            // Then capture every 3 seconds (increased from 2 for better performance)
+            autoCaptureInterval = setInterval(() => {
+                if (!isProcessing) {
+                    captureFrame();
+                }
+            }, 3000);
+        }
+
+        function captureFrame() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0);
+                
+                // Store the captured frame for authentication
+                lastCapturedFrame = canvas.toDataURL('image/png');
+                
+                // Analyze emotion in real-time
+                analyzeEmotionRealtime(lastCapturedFrame);
+            }
+        }
+
+        // Draw overlay visualization on video
+        function drawOverlay(overlayImageDataUrl) {
+            const video = document.getElementById('video');
+            const overlayCanvas = document.getElementById('overlayCanvas');
+            
+            if (!overlayCanvas) {
+                console.error('Overlay canvas not found!');
+                return;
+            }
+            
+            if (!video.videoWidth || !video.videoHeight) {
+                console.error('Video dimensions not ready');
+                return;
+            }
+            
+            const ctx = overlayCanvas.getContext('2d');
+            
+            // Set canvas internal resolution to match video
+            overlayCanvas.width = video.videoWidth;
+            overlayCanvas.height = video.videoHeight;
+            
+            console.log('Drawing overlay:', overlayCanvas.width, 'x', overlayCanvas.height);
+            console.log('Video dimensions:', video.videoWidth, 'x', video.videoHeight);
+            console.log('Overlay data URL length:', overlayImageDataUrl.length);
+            
+            // Clear previous overlay
+            ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+            
+            // Load and draw overlay image
+            const img = new Image();
+            img.onload = function() {
+                ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+                ctx.drawImage(img, 0, 0, overlayCanvas.width, overlayCanvas.height);
+                console.log('Overlay image drawn successfully');
+            };
+            img.onerror = function(e) {
+                console.error('Failed to load overlay image:', e);
+            };
+            img.src = overlayImageDataUrl;
+        }
+
+        // Real-time emotion analysis (without authentication)
+        async function analyzeEmotionRealtime(frameDataUrl) {
+            if (isProcessing) return; // Skip if already processing
+            
+            isProcessing = true;
+            
+            try {
+                const res = await fetch(API + '/api/analyze/emotion', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        frame_data_url: frameDataUrl,
+                        voice_features: voiceFeatures
+                    })
+                });
+
+                const data = await res.json();
+
+                // Check for security violations
+                if (data.security_violation) {
+                    const violation = data.facial?.violation_reason || 'Security violation detected';
+                    const numFaces = data.facial?.num_faces || 0;
+                    
+                    // Display security warning
+                    document.getElementById('facialEmotion').textContent = '🚨 VIOLATION';
+                    document.getElementById('facialEmotion').style.color = '#ff6b6b';
+                    document.getElementById('voiceEmotion').textContent = '--';
+                    document.getElementById('facialStress').textContent = '100%';
+                    document.getElementById('facialStress').style.color = '#ff6b6b';
+                    document.getElementById('voiceStress').textContent = '--';
+                    
+                    // Show alert in camera status
+                    const cameraStatus = document.getElementById('cameraStatus');
+                    if (numFaces > 1) {
+                        cameraStatus.textContent = `⚠️ ${numFaces} People Detected`;
+                        cameraStatus.className = 'status-badge deny';
+                    } else if (numFaces === 0) {
+                        cameraStatus.textContent = '⚠️ No Face';
+                        cameraStatus.className = 'status-badge delay';
+                    }
+                    
+                    return;
+                }
+
+                if (data.ok) {
+                    // Reset colors
+                    document.getElementById('facialEmotion').style.color = '';
+                    document.getElementById('facialStress').style.color = '';
+                    
+                    // Reset camera status
+                    document.getElementById('cameraStatus').textContent = 'Active';
+                    document.getElementById('cameraStatus').className = 'status-badge active';
+                    
+                    // Update emotion displays in real-time
+                    const facialEmotion = data.facial?.dominant_emotion || '--';
+                    const voiceEmotion = data.voice?.dominant_emotion || '--';
+                    
+                    document.getElementById('facialEmotion').textContent = facialEmotion;
+                    document.getElementById('voiceEmotion').textContent = voiceEmotion;
+                    document.getElementById('facialStress').textContent = ((data.facial?.stress || 0) * 100).toFixed(0) + '%';
+                    document.getElementById('voiceStress').textContent = ((data.voice?.stress || 0) * 100).toFixed(0) + '%';
+                    
+                    // Draw visualization overlay
+                    if (data.facial?.visualization?.overlay_image) {
+                        console.log('Visualization data received, drawing overlay...');
+                        drawOverlay(data.facial.visualization.overlay_image);
+                    } else {
+                        console.log('No visualization data in response:', data.facial);
+                    }
+                }
+            } catch (err) {
+                // Silently fail for real-time updates
+                console.log('Real-time emotion analysis:', err.message);
+            } finally {
+                isProcessing = false;
+            }
+        }
+
+        // Audio Analysis with proper pitch detection
+        function setupAudio(stream) {
+            const ac = new (window.AudioContext || window.webkitAudioContext)();
+            const src = ac.createMediaStreamSource(stream);
+            const analyser = ac.createAnalyser();
+            analyser.fftSize = 2048;
+            src.connect(analyser);
+            const buf = new Float32Array(analyser.fftSize);
+            const sampleRate = ac.sampleRate;
+
+            // Autocorrelation-based pitch detection
+            function detectPitch(buffer) {
+                // Find the first zero crossing
+                let start = 0;
+                while (start < buffer.length && buffer[start] > 0) start++;
+                
+                // Find the next zero crossing
+                let end = start + 1;
+                while (end < buffer.length && buffer[end] <= 0) end++;
+                
+                if (end >= buffer.length) return 0;
+                
+                // Autocorrelation
+                let maxCorr = 0;
+                let maxLag = 0;
+                const minLag = Math.floor(sampleRate / 500); // 500 Hz max
+                const maxLagLimit = Math.floor(sampleRate / 80); // 80 Hz min
+                
+                for (let lag = minLag; lag < maxLagLimit && lag < buffer.length / 2; lag++) {
+                    let corr = 0;
+                    for (let i = 0; i < buffer.length - lag; i++) {
+                        corr += buffer[i] * buffer[i + lag];
+                    }
+                    if (corr > maxCorr) {
+                        maxCorr = corr;
+                        maxLag = lag;
+                    }
+                }
+                
+                if (maxLag === 0) return 0;
+                return Math.round(sampleRate / maxLag);
+            }
+
+            function tick() {
+                analyser.getFloatTimeDomainData(buf);
+                
+                // Calculate RMS (energy/volume)
+                let sum = 0, crossings = 0;
+                for (let i = 1; i < buf.length; i++) {
+                    sum += buf[i] * buf[i];
+                    if ((buf[i-1] <= 0 && buf[i] > 0) || (buf[i-1] >= 0 && buf[i] < 0)) crossings++;
+                }
+                const rms = Math.sqrt(sum / buf.length);
+                const zcr = crossings / buf.length;
+                
+                // Detect pitch using autocorrelation
+                const pitch = detectPitch(buf);
+                
+                // Only update pitch if we have a valid detection and sufficient energy
+                const validPitch = (pitch > 80 && pitch < 500 && rms > 0.01) ? pitch : voiceFeatures.pitch_hz || 150;
+                
+                voiceFeatures = {
+                    rms: Math.min(1, rms * 5),
+                    zcr: Math.min(1, zcr * 10),
+                    pitch_hz: validPitch
+                };
+
+                document.getElementById('rms').textContent = voiceFeatures.rms.toFixed(2);
+                document.getElementById('zcr').textContent = voiceFeatures.zcr.toFixed(2);
+                document.getElementById('pitch').textContent = voiceFeatures.pitch_hz;
+                
+                // Update mic status based on activity
+                if (rms > 0.02) {
+                    document.getElementById('micStatus').textContent = 'Speaking';
+                    document.getElementById('micStatus').className = 'status-badge active';
+                } else {
+                    document.getElementById('micStatus').textContent = 'Listening';
+                    document.getElementById('micStatus').className = 'status-badge idle';
+                }
+
+                requestAnimationFrame(tick);
+            }
+            tick();
+        }
+
+        // Removed manual capture button - now auto-capturing
+
+        // Keystroke Tracking
+        function makeKeyTracker(input) {
+            const events = [];
+            const downTimes = new Map();
+            
+            input.addEventListener('keydown', e => {
+                if (e.repeat) return;
+                const t = performance.now();
+                downTimes.set(e.code, t);
+                events.push({key: e.key, code: e.code, t_down: t});
+            });
+            
+            input.addEventListener('keyup', e => {
+                const t = performance.now();
+                const down = downTimes.get(e.code);
+                events.push({key: e.key, code: e.code, t_up: t, t_down: down ?? null});
+            });
+            
+            return () => events.splice(0, events.length);
+        }
+
+        const getEnrollEvents = makeKeyTracker(document.getElementById('enrollInput'));
+        const getAuthEvents = makeKeyTracker(document.getElementById('authInput'));
+
+        // Enrollment
+        document.getElementById('enrollBtn').onclick = async () => {
+            const userId = document.getElementById('userId').value.trim();
+            const passphrase = document.getElementById('passphrase').value;
+            const enrollInput = document.getElementById('enrollInput').value;
+            const sample = getEnrollEvents();
+
+            if (!userId || !passphrase) {
+                showAlert('enrollStatus', 'Error: Enter User ID and Passphrase in the top section first', 'danger');
+                return;
+            }
+
+            if (!enrollInput) {
+                showAlert('enrollStatus', 'Error: Type your passphrase in the enrollment field', 'danger');
+                return;
+            }
+
+            // CRITICAL: Verify enrollment passphrase matches the main passphrase
+            if (enrollInput !== passphrase) {
+                showAlert('enrollStatus', '🚫 ERROR: Passphrase mismatch. Type the SAME passphrase from User Identity section.', 'danger');
+                document.getElementById('enrollInput').value = '';
+                document.getElementById('enrollInput').style.borderColor = '#ff6b6b';
+                setTimeout(() => {
+                    document.getElementById('enrollInput').style.borderColor = '';
+                }, 2000);
+                return; // STOP HERE - No enrollment allowed
+            }
+
+            if (sample.length < 4) {
+                showAlert('enrollStatus', 'Error: Type the complete passphrase', 'danger');
+                return;
+            }
+
+            try {
+                const res = await fetch(API + '/api/enroll/keystrokes', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({user_id: userId, passphrase, samples: [sample]})
+                });
+                
+                const data = await res.json();
+                
+                if (data.ok) {
+                    enrollSamples++;
+                    updateEnrollCount(enrollSamples);
+                    document.getElementById('enrollInput').value = '';
+                    
+                    if (enrollSamples < 3) {
+                        showAlert('enrollStatus', `✓ Sample ${enrollSamples} saved! Submit ${3 - enrollSamples} more sample${3 - enrollSamples > 1 ? 's' : ''}.`, 'warning');
+                    } else {
+                        showAlert('enrollStatus', `✓ Sample ${enrollSamples} saved! You can now authenticate on the right side.`, 'success');
+                    }
+                } else {
+                    showAlert('enrollStatus', 'Error: Enrollment failed', 'danger');
+                }
+            } catch (err) {
+                showAlert('enrollStatus', 'Error: ' + err.message, 'danger');
+            }
+        };
+
+        // Authentication
+        document.getElementById('authBtn').onclick = async () => {
+            const userId = document.getElementById('userId').value.trim();
+            const mainPassphrase = document.getElementById('passphrase').value;
+            const authPassphrase = document.getElementById('authInput').value;
+            const keystroke_events = getAuthEvents();
+
+            if (!userId) {
+                showAlert('authStatus', 'Error: Enter User ID', 'danger');
+                return;
+            }
+
+            if (!mainPassphrase) {
+                showAlert('authStatus', 'Error: Enter the passphrase in the User Identity section first', 'danger');
+                return;
+            }
+
+            if (!authPassphrase) {
+                showAlert('authStatus', 'Error: Type your passphrase in the authentication field', 'danger');
+                return;
+            }
+
+            // CRITICAL: Verify authentication passphrase matches the main passphrase
+            // IMMEDIATE DENIAL if mismatch - but LOG IT to admin dashboard
+            if (authPassphrase !== mainPassphrase) {
+                console.log('🚫 AUTHENTICATION DENIED: Passphrase mismatch');
+                
+                // Log the denial to admin dashboard
+                try {
+                    const frame_data_url = lastCapturedFrame || document.getElementById('canvas').toDataURL('image/png');
+                    await fetch(API + '/api/auth/attempt', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            user_id: userId,
+                            passphrase: authPassphrase,
+                            frame_data_url,
+                            voice_features: voiceFeatures,
+                            keystroke_events
+                        })
+                    });
+                } catch (err) {
+                    console.log('Failed to log denial:', err);
+                }
+                
+                showAlert('authStatus', '🚫 ACCESS DENIED: Incorrect passphrase. Authentication failed immediately.', 'danger');
+                document.getElementById('authInput').value = '';
+                document.getElementById('authInput').style.borderColor = '#ff6b6b';
+                setTimeout(() => {
+                    document.getElementById('authInput').style.borderColor = '';
+                }, 2000);
+                return; // STOP HERE after logging
+            }
+
+            if (keystroke_events.length < 4) {
+                showAlert('authStatus', 'Error: Type the complete passphrase', 'danger');
+                return;
+            }
+
+            showAlert('authStatus', '🔄 Authenticating...', 'warning');
+
+            try {
+                // Use the last auto-captured frame
+                const frame_data_url = lastCapturedFrame || document.getElementById('canvas').toDataURL('image/png');
+                
+                const res = await fetch(API + '/api/auth/attempt', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        user_id: userId,
+                        passphrase: authPassphrase,
+                        frame_data_url,
+                        voice_features: voiceFeatures,
+                        keystroke_events
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.ok) {
+                    // Check for security violations
+                    if (data.security_violation) {
+                        const violation = data.facial?.violation_reason || 'Security violation';
+                        showAlert('authStatus', `🚨 SECURITY BREACH: ${violation}`, 'danger');
+                        return;
+                    }
+                    
+                    const decision = data.fusion.decision.toUpperCase();
+                    const confidence = (data.fusion.confidence * 100).toFixed(0);
+                    const message = `${decision} | Confidence: ${confidence}% | ${data.fusion.guidance}`;
+                    
+                    showAlert('authStatus', message, data.fusion.decision);
+                    
+                    // Update emotion displays with safe fallbacks
+                    let facialEmotion = '--';
+                    if (data.facial?.dominant_emotion) {
+                        facialEmotion = data.facial.dominant_emotion;
+                    } else if (data.facial?.probs && Object.keys(data.facial.probs).length > 0) {
+                        facialEmotion = Object.keys(data.facial.probs).reduce((a, b) => 
+                            data.facial.probs[a] > data.facial.probs[b] ? a : b
+                        );
+                    }
+                    
+                    let voiceEmotion = '--';
+                    if (data.voice?.dominant_emotion) {
+                        voiceEmotion = data.voice.dominant_emotion;
+                    } else if (data.voice?.probs && Object.keys(data.voice.probs).length > 0) {
+                        voiceEmotion = Object.keys(data.voice.probs).reduce((a, b) => 
+                            data.voice.probs[a] > data.voice.probs[b] ? a : b
+                        );
+                    }
+                    
+                    document.getElementById('facialEmotion').textContent = facialEmotion;
+                    document.getElementById('voiceEmotion').textContent = voiceEmotion;
+                    document.getElementById('facialStress').textContent = ((data.facial?.stress || 0) * 100).toFixed(0) + '%';
+                    document.getElementById('voiceStress').textContent = ((data.voice?.stress || 0) * 100).toFixed(0) + '%';
+                    
+                    document.getElementById('authInput').value = '';
+                } else {
+                    showAlert('authStatus', 'Error: ' + (data.error || 'Authentication failed'), 'danger');
+                }
+            } catch (err) {
+                const errorMsg = err.message || 'Authentication failed';
+                if (errorMsg.includes('400')) {
+                    showAlert('authStatus', '⚠️ Please enroll first! Go to the Enrollment tab and submit 3-5 typing samples.', 'warning');
+                } else {
+                    showAlert('authStatus', 'Error: ' + errorMsg, 'danger');
+                }
+            }
+        };
+
+        function showAlert(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.className = `alert alert-${type}`;
+            el.classList.remove('hidden');
+        }
+
+        // Test visualization function
+        function testVisualization() {
+            console.log('Testing visualization...');
+            captureFrame();
+        }
+
+        // Initialize
+        initCamera();
+    </script>
+</body>
+</html>
