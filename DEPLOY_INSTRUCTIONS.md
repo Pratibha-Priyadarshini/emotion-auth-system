@@ -21,7 +21,7 @@ Name: emotion-auth-system
 Branch: main
 Runtime: Python 3
 Build Command: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
-Start Command: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+Start Command: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
 Instance Type: Free (or Starter for better TensorFlow performance)
 ```
 
