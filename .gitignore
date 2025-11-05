@@ -60,3 +60,6 @@ backend/storage/alerts/*.json
 
 # Datasets (too large)
 backend/storage/datasets/
+
+# MFA Integration (optional, causes Node.js detection on Render)
+mfa-integration/
