@@ -5,8 +5,20 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success.svg)](https://emotion-auth-system-1.onrender.com)
 
 A production-ready multi-factor authentication system that uses facial emotion recognition, voice stress analysis, and keystroke dynamics to detect coercion and ensure secure authentication.
+
+## 🌐 Live Demo
+
+**Try it now:** [https://emotion-auth-system-1.onrender.com](https://emotion-auth-system-1.onrender.com)
+
+- **Main App:** [https://emotion-auth-system-1.onrender.com/web/index.html](https://emotion-auth-system-1.onrender.com/web/index.html)
+- **Admin Dashboard:** [https://emotion-auth-system-1.onrender.com/web/admin.html](https://emotion-auth-system-1.onrender.com/web/admin.html)
+- **API Docs:** [https://emotion-auth-system-1.onrender.com/docs](https://emotion-auth-system-1.onrender.com/docs)
+- **Health Check:** [https://emotion-auth-system-1.onrender.com/health](https://emotion-auth-system-1.onrender.com/health)
+
+> **Note:** First request may take 30-60 seconds (free tier cold start). Allow webcam and microphone access for full functionality.
 
 ---
 
@@ -290,7 +302,45 @@ curl -X POST "http://localhost:8000/api/test/simulate?stress_level=0.3&match_sco
 
 ## 🚀 Deployment
 
-### Docker Deployment
+### Live Production Deployment
+
+**Current Deployment:** [https://emotion-auth-system-1.onrender.com](https://emotion-auth-system-1.onrender.com)
+
+Deployed on Render.com with:
+- ✅ TensorFlow 2.15.1 (CPU optimized)
+- ✅ Python 3.11.9
+- ✅ All pre-trained models
+- ✅ Full MFA integration
+- ✅ Admin dashboard
+- ✅ REST API
+
+### Deploy Your Own
+
+#### Render.com (Recommended)
+
+```bash
+# 1. Push to GitHub
+git push origin main
+
+# 2. Connect to Render
+# - Go to https://render.com
+# - Create new Web Service
+# - Connect your GitHub repo
+
+# 3. Configure
+Build Command: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+Start Command: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+
+# 4. Environment Variables
+PYTHON_VERSION=3.11.9
+SECRET_KEY=your-secret-key
+DATABASE_URL=sqlite:///./storage/app.db
+CORS_ORIGINS=*
+```
+
+See [DEPLOY_WITH_TENSORFLOW.md](DEPLOY_WITH_TENSORFLOW.md) for complete deployment guide.
+
+#### Docker Deployment
 
 ```bash
 # Build and run
@@ -300,14 +350,14 @@ docker-compose up -d
 http://your-domain.com
 ```
 
-### Cloud Deployment
+#### Cloud Deployment
 
 ```bash
 # AWS, Azure, Google Cloud
 python deploy.py --mode production --domain yourdomain.com
 ```
 
-See [mfa-integration/DEPLOYMENT.md](mfa-integration/DEPLOYMENT.md) for complete deployment guide.
+See [mfa-integration/DEPLOYMENT.md](mfa-integration/DEPLOYMENT.md) for more deployment options.
 
 ---
 
