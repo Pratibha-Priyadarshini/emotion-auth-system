@@ -21,3 +21,9 @@ pandas==2.0.3
 # Note: TensorFlow removed for faster builds on free tier
 # Facial emotion uses heuristic model (more accurate anyway)
 # If you need TensorFlow, use: pip install tensorflow-cpu==2.13.0
+
+
+# Training dependencies
+tensorflow==2.15.0
+matplotlib==3.8.0
+seaborn==0.13.0
